@@ -8,7 +8,7 @@ website:
         © 2026, Татьяна Балтыжакова, Институт дизайна и урбанистики, Университет ИТМО
   navbar:
     left:
-      - href: progorod-lab.qmd
+      - href: index.qmd
         text: Городские услуги и сервисы
       
   sidebar:
