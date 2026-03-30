@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Педагогическая лаборатория цифровой городской среды "
+  page-footer: |
+        © 2026, Татьяна Балтыжакова, Институт дизайна и урбанистики, Университет ИТМО
+  navbar:
+    left:
+      - href: progorod-lab.qmd
+        text: Городские услуги и сервисы
+      
+  sidebar:
+    - logo: "images/logo_urbanistika_ITMO_itog_RUS_ikonka_black.png"
+      pinned: true
+      style: "docked"
+      collapse-level: 1
+      
+
+format:
+  html:
+    theme: flatly
+    css: styles.css
+    toc: true
+    
+lang: ru-RU    
+language: custom.yml
+
+editor: visual
+
