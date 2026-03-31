@@ -164,12 +164,25 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#построение-зоны-доступности" id="toc-построение-зоны-доступности" class="nav-link" data-scroll-target="#построение-зоны-доступности">Построение зоны доступности</a></li>
   <li><a href="#определение-зданий-попавших-в-границы-буферных-зон" id="toc-определение-зданий-попавших-в-границы-буферных-зон" class="nav-link" data-scroll-target="#определение-зданий-попавших-в-границы-буферных-зон">Определение зданий, попавших в границы буферных зон</a></li>
+  <li><a href="#расчет-количества-школ-находящихся-в-зоне-доступности" id="toc-расчет-количества-школ-находящихся-в-зоне-доступности" class="nav-link" data-scroll-target="#расчет-количества-школ-находящихся-в-зоне-доступности">Расчет количества школ, находящихся в зоне доступности</a></li>
+  <li><a href="#оформление-результатов" id="toc-оформление-результатов" class="nav-link" data-scroll-target="#оформление-результатов">Оформление результатов</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#создание-макета" id="toc-создание-макета" class="nav-link" data-scroll-target="#создание-макета">Создание макета</a>
+  <ul class="collapse">
+  <li><a href="#параметры-листа" id="toc-параметры-листа" class="nav-link" data-scroll-target="#параметры-листа">Параметры листа</a></li>
+  <li><a href="#добавление-карты" id="toc-добавление-карты" class="nav-link" data-scroll-target="#добавление-карты">Добавление карты</a></li>
+  <li><a href="#масштабная-линейка" id="toc-масштабная-линейка" class="nav-link" data-scroll-target="#масштабная-линейка">Масштабная линейка</a></li>
+  <li><a href="#легенда" id="toc-легенда" class="nav-link" data-scroll-target="#легенда">Легенда</a></li>
   </ul></li>
   <li><a href="#практический-кейс-2" id="toc-практический-кейс-2" class="nav-link" data-scroll-target="#практический-кейс-2">Практический кейс 2</a>
   <ul class="collapse">
   <li><a href="#условия-задачи-1" id="toc-условия-задачи-1" class="nav-link" data-scroll-target="#условия-задачи-1">Условия задачи</a></li>
-  <li><a href="#порядок-решения-задачи-1" id="toc-порядок-решения-задачи-1" class="nav-link" data-scroll-target="#порядок-решения-задачи-1">Порядок решения задачи</a></li>
+  <li><a href="#порядок-решения-задачи-1" id="toc-порядок-решения-задачи-1" class="nav-link" data-scroll-target="#порядок-решения-задачи-1">Порядок решения задачи</a>
+  <ul class="collapse">
+  <li><a href="#поиск-объектов" id="toc-поиск-объектов" class="nav-link" data-scroll-target="#поиск-объектов">Поиск объектов</a></li>
+  <li><a href="#оформление-результата" id="toc-оформление-результата" class="nav-link" data-scroll-target="#оформление-результата">Оформление результата</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -204,7 +217,12 @@ window.Quarto = {
 <li><p>границы муниципальных образований Калининского района - <em>Муниципальные образования.geojson;</em></p></li>
 <li><p>жилые многокватирные дома в Калининском районе - <em>Жилые дома.geojson.</em></p></li>
 </ul>
-<p>Все файлы вы можете скачать по ссылке или QR-коду, приведенному ниже.</p>
+<p>Все файлы вы можете скачать по ссылке <a href="https://disk.yandex.ru/d/racLU_Uafhy1PA" class="uri">https://disk.yandex.ru/d/racLU_Uafhy1PA</a> или QR-коду, приведенному ниже.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-2756780915.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="300"></p>
+</figure>
+</div>
 <p>Для того, чтобы открыть файлы в программе QGIS достаточно просто перетащить их в рабочее пространство окна мышкой.</p>
 </section>
 <section id="практический-кейс-1" class="level1">
@@ -354,6 +372,308 @@ window.Quarto = {
 </div>
 </div>
 </section>
+<section id="расчет-количества-школ-находящихся-в-зоне-доступности" class="level3">
+<h3 class="anchored" data-anchor-id="расчет-количества-школ-находящихся-в-зоне-доступности">Расчет количества школ, находящихся в зоне доступности</h3>
+<p>На последнем этапе решения задачи нам необходимо фактически посчитать, в какое количество буферных зон попало каждое здание.</p>
+<p>Для этого воспользуемся функцией пространственного агрегирования, которая позволяет рассчитать определенный статистический показатель в границах объектов.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Дополнительно
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>При пространственном агрегировании возможен расчет в пределах одного слоя, но, как правило, расчет показателя осуществляется для объектов одного слоя в сравнении с объектами другого слоя.</p>
+</div>
+</div>
+<p>Воспользуемся инструментом <em>Объединение атрибутов по расположению (сводка)</em>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+На заметку
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>В панели инструментов анализа есть две функции: <em>Объединение атрибутов по расположению</em> и <em>Объединение атрибутов по расположению (сводка</em>). Первая из них присваивает значение атрибута одних векторных объектов другим на основе их взаимного расположения относительно друг друга. Например, у нас есть слой со зданиями и слой с магазинами, у которых есть атрибут с названием, мы можем с использованием этой функции присвоить зданию название магазина, который в нем расположен.</p>
+<p>Сводка позволяет получить не просто значение атрибута, а его статистическую сводку (среднее, медиану, максимальное и минимальное значения и прочее).</p>
+</div>
+</div>
+<p><img src="images/clipboard-3834757514.png" class="img-fluid"></p>
+<p>В итоге вы получите слой с исходной геометрией жилых зданий и всеми их атрибутами, к которым будет добавлено атрибут с количеством буферных зон, в которые попало каждое здание.</p>
+</section>
+<section id="оформление-результатов" class="level3">
+<h3 class="anchored" data-anchor-id="оформление-результатов">Оформление результатов</h3>
+<p>Добавим зданиям цветовую заливку, цвет которой будет зависеть от рассчитанного нами значения количества доступных школ.</p>
+<p>Для этого откроем свойства слоя (двойной клик на названии слоя левой кнопкой мыши или клик правой кнопкой и <em>Свойства</em> в открывшемся контекстном меню).</p>
+<p><img src="images/clipboard-131661394.png" class="img-fluid"></p>
+<p>Пункт <strong><em>Стиль</em></strong> в окне свойств слоя предоставляет необходимые инструменты для отрисовки и стилизации векторных слоев. При этом существуют символов и инструменты для работы с векторными данными в целом, а также специальные типы символов, предназначенные для различных геометрий объектов (точек, линий и полигонов).</p>
+<p>Однако для всех видов векторных слоев процесс будет повторяться: в верхней части окна содержатся инструменты для классификации и настройки стиля, а в нижней - опции отрисовки слоя.</p>
+<p>Вне зависимости от типа геометрий в слое доступно 4 основных способа отображения объектов:</p>
+<ul>
+<li><p><strong>простой символ</strong> - позволяет отобразить все объекты слоя с использованием одного универсального символа;</p></li>
+<li><p><strong>символизация по уникальным значениям</strong> - как правило, используется для категориальной или дискретной переменной с небольшим количеством значений, также может использовать выражение в качестве переменной;</p></li>
+<li><p><strong>символизация по диапазонам значений</strong> - для задания символа в зависимости от числовой переменной, также позволяет использовать выражения;</p></li>
+<li><p><strong>символизация на основе правил</strong> - позволяет задавать символику на основе выражения.</p></li>
+</ul>
+<p>Для полигонов доступна символизация с автоматическим объединением объектов, где кроме перечисленных выше исходных символизация добавлена символизация 2.5 D, о которой чуть ниже.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Снимок экрана 2025-06-02 в 15.57.44.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p>Уникальными только для полигональных объектов типами стиля являются:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Снимок экрана 2025-06-23 в 13.01.45.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><strong>инвертированные полигоны (inverted polygons)</strong> - позволяет делать заливку не внутрь контура, а вовне. Также как и для символизации с автоматическим объединением объектов остальные типы стилей могут выполнять роль исходной символизации;</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Снимок экрана 2025-06-02 в 15.58.15.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><p><strong>2.5 D</strong> - позволяет создать изометрическую проекцию для полигонов.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Pasted image 20250602160144.png" class="img-fluid figure-img"></p>
+<figcaption>Источник: https://cartetika.ru/tpost/jc36y7ke41-izometriya-v-qgis-osvaivaem-25d</figcaption>
+</figure>
+</div></li>
+</ul>
+<p>В изометрической проекции для полигонов доступна дальнейшая настройка символов аналогично символам стандартных полигонов.</p>
+<p>Если мы хотим настроить стиль в зависимости от количественной переменной, необходимо воспользоваться типом стиля <em>Символизация по диапазонам значений</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-2588436164.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1000"></p>
+</figure>
+</div>
+<p>Классификация для числовых значений подразумевает разбивку на интервалы.</p>
+<p>Самые широко применяемые методы классификации в геоинформационных системах:</p>
+<ul>
+<li><em>Равное количество (квантиль)</em>: в каждом классе будет одинаковое количество элементов;</li>
+<li><em>Равный интервал</em>: каждый класс будет иметь одинаковый размер.</li>
+<li><em>Стандартное отклонение</em>: классы строятся в зависимости от стандартного отклонения значений.</li>
+<li><em>Фиксированный интервал</em>: каждый класс будет иметь фиксированный диапазон значений (например, при значениях от 1 до 16 и размере интервала 4 классами будут 1-4, 5-8, 9-12 и 13-16).</li>
+<li><em>Логарифмическая шкала</em>: подходит для данных с широким диапазоном значений.</li>
+<li><em>естественные интервалы</em> (Natural Breaks (Jenks)): дисперсия внутри каждого класса минимизируется, а дисперсия между классами максимизируется.</li>
+<li><em>форматированные отступы</em>: вычисляет последовательность из примерно n+1 равномерно распределенных “красивых” значений, которые покрывают диапазон значений x. Значения выбираются таким образом, чтобы они были в 1, 2 или 5 раз больше 10.</li>
+</ul>
+<p>Для того, чтобы вручную задать диапазоны, вам нужно дважды кликнуть в графе значения в нужной строке и ввести нижнюю и верхнюю границы диапазона.</p>
+<p>Опция <em>Связать границы классов</em> автоматически изменит соседний диапазон, чтобы между ними не было пробелов.</p>
+<p>Если вы хотите добавить или удалить классы, вы можете сделать это, воспользовавшись кнопками плюса и минуса, расположенными рядом с кнопкой <em>Классифицировать</em>.</p>
+<p>Изменение текста легенды происходит аналогично ручному изменению границ классов: двойной клик в графе <em>Легенда</em> на нужной строке и введение нужного текста с клавиатуры.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Внимание
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Если вы обратили внимание, то часть зданий у вас с карты пропала после того, как вы добавили стилизацию.</p>
+<p>Почему так произошло?</p>
+<p>Потому что некоторые здания не попали ни в одну из зон доступности и значение нужного атрибута у них <em>NULL,</em> то есть пустое значение. Это не позволяет присвоить им определенный цвет в выбранном вами градиенте.</p>
+<p>Если вы все-таки хотите показать не только здания с известной нам этажностью, но и те, для которых этих данных нет, можно воспользоваться символизацией на основе правил.</p>
+<p>Чтобы минимизировать работу, продублируем слой с уже настроенной символизацией на основе диапазонов значений.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-545308472.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="699"></p>
+</figure>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Внимание
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Дубликат слоя будет ссылаться на тот же самый файл, поэтому если вы будете что-то редактировать в нем (форму объектов, атрибуты), то изменения будут отображаться в обоих слоях.</p>
+</div>
+</div>
+<p>Далее отключим фильтр слоя в полученном дубликате. Для этого откроем опцию <em>Фильтр</em> и нажмем <em>Очистить</em>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Внимание
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Объекты с неизвестной этажностью у вас на карте пока не появятся, так как они не попадают ни в один из указанных диапазонов для задания стиля объектам, следовательно, не могут быть отрисованы.</p>
+</div>
+</div>
+<p>Для полученного дубликата слоя выберем <em>Символизация на основе правил</em>. Так как у нас уже была настроена символизация по диапазонам первые три правила будут указана автоматически, вам необходимо добавить еще одно.</p>
+<p>Для этого нужно нажать на <img src="images/clipboard-2350716054.png" width="38" height="32">, после чего в открывшемся окне указать подпись (то, что будет использоваться легенде) и выражение для правила: <code>"object_name_count" is null</code>.</p>
+<p>Для создания выражения, вы можете воспользоваться конструктором, который открывается нажатием кнопки <img src="images/clipboard-2105348756.png" width="44" height="41">.</p>
+<p>В окне для задания правила вы можете выбрать цвет заливки для этих зданий так, чтобы он отличался от остальных.</p>
+</div>
+</div>
+<p>Просто сохранить карту в виде изображения можно через строку меню <em>Проект</em> <span class="math inline">\(\longrightarrow\)</span> <em>Импорт/Экспорт</em> <span class="math inline">\(\longrightarrow\)</span> <em>Экспортировать карту как изображение (Экспортировать карту в PDF).</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-1848435251.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="834"></p>
+</figure>
+</div>
+<p>В открывшемся окне можно настроить масштаб, охват карты, разрешение, аннотации и прочее. Но такой метод не позволяет сделать некоторые точные настройки экспорта.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-2905030918.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="535"></p>
+</figure>
+</div>
+<p>Некоторые настройки оформления можно добавить через пункт меню <em>Вид</em> <span class="math inline">\(\longrightarrow\)</span> <em>Оформление</em>.</p>
+<p><img src="images/clipboard-3630736983.png" class="img-fluid"></p>
+</section>
+</section>
+</section>
+<section id="создание-макета" class="level1">
+<h1>Создание макета</h1>
+<p>Более предпочтительным методом публикации являются макеты, которые сохраняются как часть проекта и позволяют кастомизировать результат публикации. Создание макета происходит через строку меню <em>Проект</em> <span class="math inline">\(\longrightarrow\)</span> <em>Создать макет</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/32.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="339"></p>
+</figure>
+</div>
+<p>На этом этапе вам предлагают дать имя вашему макету, вы можете оставить поле пустым, тогда имя будет присвоено автоматически.</p>
+<p><img src="images/clipboard-112698989.png" class="img-fluid"></p>
+<p>После создания макета открывается отдельное окно, в котором происходит настройка карты для публикации.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-3567662111.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1795"></p>
+</figure>
+</div>
+<p>По левому краю расположены значки добавления различных элементов оформления на макет, в правой части окна сверху будут перечислены добавленные на макет элементы, а в правой нижней части окна будут отображаться свойства элементов. В центральной части расположен лист, на котором будет размещаться карта и добавленные на нее элементы.</p>
+<section id="параметры-листа" class="level2">
+<h2 class="anchored" data-anchor-id="параметры-листа">Параметры листа</h2>
+<p>Чтобы настроить размер и ориентацию листа, нужно открыть его параметры. Параметры листа открываются в контекстном меню, которое появляется после нажатия правой кнопкой мыши на лист.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-2988592063.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1206"></p>
+</figure>
+</div>
+<p>После этого в правой части окна появятся настройки параметров листа.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-156683114.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1205"></p>
+</figure>
+</div>
+<p>Добавить новый лист в макет можно кнопкой <em>Добавить листы.</em></p>
+</section>
+<section id="добавление-карты" class="level2">
+<h2 class="anchored" data-anchor-id="добавление-карты">Добавление карты</h2>
+<p>Добавление карты на лист осуществляется инструментом <strong>Добавить Карта</strong> на левой панели окна макета <img src="images/clipboard-4025378022.png" class="img-fluid">.</p>
+<p>После выбора этого инструмента нужно щеклнуть на любом месте листа, чтобы карта была добавлена. После этого открывается диалоговое окно, в котором можно настроить положение и размер элемента (не обязательно, так как это положение и размер можно скорректировать вручную уже на листе после добавления).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-4100779779.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="484"></p>
+</figure>
+</div>
+<p>После добавления карта должна появиться на листе, а в правой части окна появятся ее настройки.</p>
+<p><img src="images/clipboard-2231516224.png" class="img-fluid"></p>
+<p>Изменить размер элемента можно просто потянув за один из белых квадратиков по периметру элемента. При этом можно увидеть, что сразу меняется масштаб и границы карты.</p>
+<p>На добавленной карте отображаются те слои, которые в данный момент являются видимыми в основном окне программы.</p>
+<p>Основные настройки элемента:</p>
+<ul>
+<li><p>масштаб - рассчитывается в зависимости от того, какая область попадает в элемент, при необходимости может быть введен нужный знаменатель масштаба;</p></li>
+<li><p>поворот карты - угол поворота, задаваемый в градусах по часовой стрелке относительно направления на север;</p></li>
+<li><p>система координат - система координат, в которой карта отображается на макете, по умолчанию система координат проекта;</p></li>
+<li><p>зафиксировать слои - фиксация содержания карты;</p></li>
+<li><p>зафиксировать стили слоев;</p></li>
+</ul>
+<p>Содержание карты обновляется в соответствии с изменением содержания основного окна карты. То есть при включении/выключении слоев, у вас будет меняться карта на макете. Если вы не хотите, чтобы этого происходило, вы можете зафиксировать слои, то есть перечень видимых на макете слоев.</p>
+<p>Фиксация стилей проихсодит аналогично, но замораживает не содержание карты, а оформление слоев на макете.</p>
+<ul>
+<li>границы помогают задать охват карты.</li>
+</ul>
+</section>
+<section id="масштабная-линейка" class="level2">
+<h2 class="anchored" data-anchor-id="масштабная-линейка">Масштабная линейка</h2>
+<p>Для отображения масштаба карты на нее нужно добавить масштабную линейку (линейный масштаб) с помощью инструмента <em>Добавить Масштабная линейка</em> <img src="https://baltti.github.io/gis-itmo/images/41.PNG" class="img-fluid"></p>
+<p>Процесс добавлени происходит аналогично добавлению карты на лист.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-3511291998.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="803"></p>
+</figure>
+</div>
+<p>Основные настройки масштабной линейки:</p>
+<ul>
+<li><p>карта - то, для какого элемента карты добавляется линейка (в нашем случае всего один элемент карты, если их несколько можно сделать выбор);</p></li>
+<li><p>стиль линейки</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-2239207689.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="775"></p>
+</figure>
+</div>
+<ul>
+<li><p>единицы масштабной линейки - единицы измерения на линейном масштабе;</p></li>
+<li><p>множитель единиц масштабной линейки - во сколько раз уменьшить значения на масштабной линейке;</p></li>
+<li><p>подпись единиц измерения;</p></li>
+<li><p>формат числа - формат чисел на линейном масштабе;</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-3615138096.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="798"></p>
+</figure>
+</div>
+<ul>
+<li><p>сегменты - количество сегментов слева от нуля и справа от нуля;</p></li>
+<li><p>фиксированная ширина - размер сегмента в единицах измерения карты;</p></li>
+<li><p>подобрать ширину сегмента - размер сегментов линейного масштаба в единицах измерения листа.</p></li>
+</ul>
+</section>
+<section id="легенда" class="level2">
+<h2 class="anchored" data-anchor-id="легенда">Легенда</h2>
+<p>Добавим на карту легенду, с помощью кнопки <em>Добавить Легенда</em> <img src="images/clipboard-350555816.png" class="img-fluid">.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-2887686485.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1813"></p>
+</figure>
+</div>
+<p>По умолчанию на легенду добавляются все слои, которые есть в вашем проекте. Чтобы в легенде отображались только видимые слои, нужно поставить галочку в чекбоксе <strong>Показывать только элементы внутри связанных карт</strong>.</p>
+<p>Названия слоев и категорий в легенде отображаются также, как и в основном окне программы, поэтому, чтобы кастомизировать содержание легенды, нужно убрать галочку напротив функции <strong>Автообновление</strong> и после этого осуществить необходимые настройки.</p>
+<p>Ненужные для отображения элементы легенды вы можете просто скрыть.</p>
+<p>Вы можете подобрать нужный вам шрифт и его размер для каждого типа элементов легенды:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-3765875891.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="859"></p>
+</figure>
+</div>
+<ul>
+<li><p>заголовок легенды;</p></li>
+<li><p>заголовки групп - при наличии групп слоев здесь вы можете настроить шрифт для них;</p></li>
+<li><p>заголовки подгрупп - шрифт для названий слоев;</p></li>
+<li><p>подписи элементов - подписи элементов легенды.</p></li>
+</ul>
+<p>Если ваша легенда получилась слишком длинной, вы можете разбить ее на несколько колонок.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-4219295417.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1131"></p>
+</figure>
+</div>
+<p>Здесь может быть настроено нужное вам число колонок, необходимость их одинаковой ширины (по самой широкой из полученных колонок). Опция <em>Разбивать слои</em> здесь необходима в том случае, если вы хотите разбить легенду одного слоя на несколько колонок; если вы не поставите здесь галочку в чекбоксе, то колонки будут разбиваться по слоям.</p>
+<p>Отдельно вы можете настроить заливку фона и рамку дл вашей легенды или убрать их совсем.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-3000599947.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="879"></p>
+</figure>
+</div>
 </section>
 </section>
 <section id="практический-кейс-2" class="level1">
@@ -380,11 +700,86 @@ window.Quarto = {
 </div>
 <p>Рассчитать количество объектов каждого из типов в зоне доступности школы.</p>
 <p>Определить в окрестности каких школ количество нежелательных объектов превышает количество положительных объектов.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+На заметку
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Зоны доступности вокруг школ у вас уже построены в предыдущем задании.</p>
+</div>
+</div>
 </section>
 <section id="порядок-решения-задачи-1" class="level2">
 <h2 class="anchored" data-anchor-id="порядок-решения-задачи-1">Порядок решения задачи</h2>
+<section id="поиск-объектов" class="level3">
+<h3 class="anchored" data-anchor-id="поиск-объектов">Поиск объектов</h3>
+<p>В первую очередь необходимо определиться с перечнем “хороших” и “плохих” объектов, которые мы будем учитывать, и скачать их местоположение из OSM.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+На заметку
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Все значения тегов можно посмотреть на странице <a href="https://wiki.openstreetmap.org/wiki/RU:%D0%9E%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D1%8B_%D0%BA%D0%B0%D1%80%D1%82%D1%8B">Объекты карты</a>, если вам необходимы дополнительные пояснения, то можно обратиться к странице <a href="https://wiki.openstreetmap.org/wiki/RU:%D0%9A%D0%B0%D0%BA_%D0%BE%D0%B1%D0%BE%D0%B7%D0%BD%D0%B0%D1%87%D0%B8%D1%82%D1%8C">Как обозначить</a>.</p>
+<p>На русском перечень ключей и значений с пояснениями можно найти в <a href="https://docs.google.com/spreadsheets/d/1YgTDaw160aZ60DPUxuJrfYGyGykKJQDZE3c0W2O-OSY/edit?usp=sharing">таблице</a>.</p>
+</div>
+</div>
+<p>Расчет количества объектов, попавших в зону доступности, осуществляется аналогично первому практическому кейсу.</p>
+</section>
+<section id="оформление-результата" class="level3">
+<h3 class="anchored" data-anchor-id="оформление-результата">Оформление результата</h3>
+<p>Расчет числа преобладающих объектов вы можете сделать в виде отдельного атрибута на основе условного выражения.</p>
+<p>Для этого вы таблице атрибутов вам нужно открыть <em>Калькулятор полей</em> <img src="images/clipboard-1370805890.png" width="44" height="38">.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-2249692529.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1000"></p>
+</figure>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Важно
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Если вы хотите создать новое поле, то для него нужно обязательно указать имя и тип данных, без этого поле создано не будет. <em>Имя поля должно быть уникальным в пределах таблицы</em>.</p>
+<p>Если вы будете записывать результат в уже существующее поле (<em>Обновить существующее поле</em>), то удостоверьтесь, что тип данных этого поля соответствует типу данных, который будет получен в результате выражения.</p>
+</div>
+</div>
+<p>Пример условного выражения показан ниже.</p>
+<pre><code>if ("хорошее" &gt; "плохое",'хорошо', 'плохо')</code></pre>
+<p>В данном случае используется простое условие <em>если</em>. В скобках в первую очередь указывается само условие, потом, что какое значение необходимо указать, если условие будет выполнено. После второй запятой указывается, какое значение нужно присвоить, если условие не было выполнено.</p>
+<p>После того, как вы получите свой рассчитанный атрибут, вы можете настроить стиль слоя на его основе.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Дополнительно
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Похожее выражение условия вы можете прописать вместо значения конкретного атрибута при настройке стиля.</p>
+<p>В этом случае создавать новый атрибут будет не нужно.</p>
+<p>Также вы можете избежать необходимости создавать новый атрибут, воспользовавшись символизацией на основе правил.</p>
+</div>
+</div>
 
 
+</section>
 </section>
 </section>
 
